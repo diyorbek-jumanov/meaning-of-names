@@ -43,9 +43,18 @@ def Mean_name(text):
     mano = data[i_5:i_6]
     # print(mano)
 
-    ful_mano = f'{ism} - {lang}\n____________________\n{category}\n___________________\n{mano}'
-    print(ful_mano)
-    # return lang, mano
+    ful_mano = f'{ism} - {lang}\n____________________\n{category}\n_____________________\n{mano}'
+    # print(ful_mano)
+    return ful_mano
+
+    
+def sendMsg(txt, ch):
+    url_up = f'https://api.telegram.org/bot{token}/sendMessage'
+    p = {
+        'chat_id': ch,
+        'text': txt
+    }
+    respons_s = requests.get(url=url_up, params=p)
     
 
 msg_id = getUpdates()['message']['message_id']
@@ -59,8 +68,8 @@ while True:
     
 
     if msg_id != last_msg_id:
-        Mean_name(msg_text)
-        
+
+        sendMsg(Mean_name(msg_text), chat_id)
         msg_id = last_msg_id
 
 
