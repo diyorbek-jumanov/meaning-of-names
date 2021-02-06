@@ -2,7 +2,7 @@ import requests
 import os
 
 # token = os.environ['token']
-token = '1529375049:AAGsVK_oy8Bs_mkcZitgGSs63GBH46ErUas'
+token = '1616821732:AAHHPWF4mcOS8OACiCHTGnV1qRbUsBAqlN0'
 
 
 def getUpdates():
@@ -16,33 +16,51 @@ def getUpdates():
 
 def Mean_name(text):
     
-    url = f'https://ismlar.com/uz/search/{text.title()}'
+    url = f'https://ismlar.com/uz/search/{text}'
     r = requests.get(url)
     
     data = r.text
+    # print(data)
 
-    i_1 = data.find('<i class="fas fa-tag"></i>') + 28
+    i_1 = data.find('<i class="fas fa-tag"></i>') + 59
     i_2 = data.find("\n", i_1)
 
     lang = data[i_1:i_2]
-    print(lang)
-    i_3 = data.find('<p class="text-size-5">') + 24
-    i_4 = data.find('</p>', i_3)
-    mano = data[i_3:i_4]
-    print(mano)
-    # idx1 = data.find()
-Mean_name("Faxriddin")
-# Mean_name(msg_text)
+    # print(lang)
+    i_3 = data.find('Сизнинг сўровингиз бўйича топилган натижалар сони:') + 56
+    i_3 = data.find('-link"', i_3)
+    if data[i_3-2] == 'y':
+        category = "o'g'il bolalarning ismi"
+    else:
+        category = "qiz bolalarning ismi"
+    i_3 = i_3 + 32
+    # print(category)
+    i_4 = data.find('\n', i_3)
+    ism = data[i_3:i_4]
+    # print(ism)
+    i_5 = data.find('text-size-5', i_4) + 13
+    i_6 = data.find('</p>', i_5)
+    mano = data[i_5:i_6]
+    # print(mano)
 
-# msg_id = 0
-# while True:
-#     data = getUpdates()
-#     last_msg_id = data['message']['message_id']
-#     chat_id = data['message']['from']['id']
-#     msg_text = data['message']['text']
+    ful_mano = f'{ism} - {lang}\n____________________\n{category}\n___________________\n{mano}'
+    print(ful_mano)
+    # return lang, mano
+    
 
-#     if msg_id != last_msg_id:
+msg_id = getUpdates()['message']['message_id']
+while True:
+    data = getUpdates()
+    # print(data)
+    last_msg_id = data['message']['message_id']
+    chat_id = data['message']['from']['id']
+    
+    msg_text = data['message']['text']
+    
+
+    if msg_id != last_msg_id:
+        Mean_name(msg_text)
         
-#         msg_id = last_msg_id
+        msg_id = last_msg_id
 
 
